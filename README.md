@@ -1,4 +1,4 @@
-# PrecioAlerta Perú — comparador de precios con motor de búsqueda propio
+# Preciazo Perú — comparador de precios con motor de búsqueda propio
 
 Compara precios de tiendas y operadoras peruanas consultando directamente sus catálogos y
 búsquedas públicas. El motor interpreta la consulta, identifica el producto exacto y separa

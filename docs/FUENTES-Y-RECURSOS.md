@@ -4,8 +4,11 @@
 
 | Fuente | Cómo se obtiene | Credenciales |
 |---|---|---|
-| Motor publicado de PrecioAlerta (≈19 tiendas, incluye Claro, Entel, Movistar y Bitel) | `GET /api/search` del sitio original, en vivo | No |
-| Tiendas VTEX (config/sources.json) | API pública de catálogo de cada tienda: `/api/catalog_system/pub/products/search` | No |
+| VTEX: Coolbox, Oechsle, Plaza Vea, Promart, Shopstar, Wong, Metro, Claro, Topitop, Estilos, Carsa | API pública de catálogo de cada tienda: `/api/catalog_system/pub/products/search` | No |
+| Magento: Efe, La Curacao, Hiraoka | Página pública de búsqueda `/catalogsearch/result/` | No |
+| Plataforma Falabella: Falabella, Tottus, Sodimac | Página pública de búsqueda (`__NEXT_DATA__`) | No |
+| Shopify: Mac Center, iShop | `/search/suggest.json` y `/products/<handle>.js` (precio por variante) | No |
+| Entel, Bitel, Movistar | Catálogos públicos de cada operadora | No |
 | Mercado Libre Perú | API oficial `api.mercadolibre.com/sites/MPE/search` | Sí: `ML_CLIENT_ID` y `ML_CLIENT_SECRET` en `.env` |
 
 Precios, disponibilidad, enlaces e imágenes son los que publica cada fuente. El motor no crea
@@ -27,10 +30,9 @@ indica como "no indicado" o "por confirmar".
 
 ## Logos de tiendas y operadoras
 
-- Los logos de `public/store-logos/` (incluidos Bitel, Claro, Entel y Movistar) son los que usa el
-  sitio original. Se descargan desde ese sitio la primera vez que se necesitan y se guardan en
-  `public/store-logos/`.
-- La procedencia exacta de cada archivo (URL, fecha, tamaño y huella SHA-1) queda registrada en
-  `data/assets-manifest.json`.
+- Los logos de `public/store-logos/` (incluidos Bitel, Claro, Entel y Movistar) vienen con el
+  proyecto; no se descargan de ningún otro sitio en tiempo de ejecución.
+- La procedencia de cada archivo (URL de la que se obtuvo, fecha, tamaño y huella SHA-1) quedó
+  registrada en `data/assets-manifest.json`.
 - Las marcas y logos pertenecen a sus respectivos titulares; se usan solo para identificar la
   tienda u operadora de cada oferta.

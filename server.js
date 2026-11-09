@@ -1,4 +1,4 @@
-// PrecioAlerta Perú — réplica local con motor de búsqueda propio
+// Preciazo Perú — réplica local con motor de búsqueda propio
 // Servidor sin dependencias (Node 20+). Uso: node server.js  →  http://localhost:3000
 //
 // - Frontend copiado del sitio original (public/), con ajustes para el motor local.
@@ -296,7 +296,7 @@ async function handler(req, res) {
 // En la PC se inicia el servidor; en Vercel se exporta la función (api/index.js).
 if (require.main === module) {
   http.createServer(handler).listen(PORT, () => {
-    console.log(`PrecioAlerta Perú → http://localhost:${PORT}`);
+    console.log(`Preciazo Perú → http://localhost:${PORT}`);
     console.log(OFFLINE ? 'Modo sin conexión: búsquedas desde capturas guardadas.' : ORIGIN ? `Motor local activo · también usa el sitio anterior: ${ORIGIN}` : 'Motor propio activo: consulta las tiendas directamente.');
   });
 }

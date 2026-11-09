@@ -15,7 +15,7 @@ const { decodeEntities, clean } = require('./normalize');
 
 const DIR = path.join(require('./paths').DATA, 'cache', 'details');
 const TTL = 24 * 60 * 60 * 1000;
-const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) PrecioAlerta-local';
+const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Preciazo-local';
 const SKIP = /^(sku|ean|upc|codigo|id|garantia extendida|envio|despacho|retiro|vendido por|seller.*|nombre seller|categoria|precio|stock|cuotas|condicion.*|pagina|url|promociones?|requiere serial.*|requiere imei|sello sec|detalle de la condicion|tipo de producto|nombre|titulo|descripcion|producto|imagen|video|link)$/;
 const EMPTY = /^(null|undefined|n\/?a|-|no aplica|ninguno)$/i;
 

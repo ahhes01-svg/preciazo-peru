@@ -79,6 +79,11 @@ const PATCHES = [
   ['siluetas de tarjetas mientras se consulta',
     "[1,2,3,4].map(e=>(0,G.jsx)(`div`,{className:`h-[360px] animate-pulse rounded-xl border border-slate-100 bg-slate-50 motion-reduce:animate-none sm:h-[400px]`},e))",
     "[1,2,3,4,5,6,7,8].map(e=>(0,G.jsxs)(`div`,{className:`animate-pulse rounded-xl border border-slate-100 bg-white motion-reduce:animate-none`,style:{padding:10},children:[(0,G.jsx)(`div`,{className:`aspect-square rounded-lg bg-slate-100`}),(0,G.jsx)(`div`,{className:`rounded bg-slate-100`,style:{height:12,width:`45%`,marginTop:12}}),(0,G.jsx)(`div`,{className:`rounded bg-slate-100`,style:{height:14,width:`92%`,marginTop:8}}),(0,G.jsx)(`div`,{className:`rounded bg-slate-100`,style:{height:14,width:`70%`,marginTop:6}}),(0,G.jsx)(`div`,{className:`rounded-lg border border-slate-100 bg-slate-50`,style:{height:58,marginTop:12}}),(0,G.jsx)(`div`,{className:`rounded-md bg-slate-200`,style:{height:38,marginTop:10}})]},e))"],
+  // Marca: Preciazo Perú.
+  ['marca en la cabecera', 'children:[`PrecioAlerta `,', 'children:[`Preciazo `,'],
+  ['marca en el pie', '© 2026 PrecioAlerta Perú', '© 2026 Preciazo Perú'],
+  ['marca en el aviso legal', 'PrecioAlerta Perú es un comparador', 'Preciazo Perú es un comparador'],
+  ['logo', '/logo-precioalerta-peru-512.png', '/logo-preciazo-peru-512.png'],
 ];
 
 let applied = 0;

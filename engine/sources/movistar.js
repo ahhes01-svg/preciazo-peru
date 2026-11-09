@@ -61,7 +61,7 @@ function mapProducts(products, mode) {
 
 async function loadCatalog(signal) {
   if (cache && Date.now() - cache.at < CACHE_MS) return cache.items;
-  const headers = { accept: 'application/json, text/html', 'x-requested-with': 'XMLHttpRequest', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) PrecioAlerta-local' };
+  const headers = { accept: 'application/json, text/html', 'x-requested-with': 'XMLHttpRequest', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Preciazo-local' };
   const items = [];
   const errors = [];
   try {

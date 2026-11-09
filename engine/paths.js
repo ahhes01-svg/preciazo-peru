@@ -7,6 +7,6 @@ const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
 const DATA_RO = path.join(ROOT, 'data');
-const DATA = process.env.DATA_DIR || (process.env.VERCEL ? '/tmp/precioalerta-data' : DATA_RO);
+const DATA = process.env.DATA_DIR || (process.env.VERCEL ? '/tmp/preciazo-data' : DATA_RO);
 
 module.exports = { ROOT, DATA, DATA_RO };

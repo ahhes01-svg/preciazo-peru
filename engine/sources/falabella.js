@@ -51,7 +51,7 @@ async function search(cfg, text, { signal, force = false } = {}) {
     const r = await politeFetch(`https://${cfg.host}/${cfg.site}/${cfg.path || 'buscar'}?Ntt=${encodeURIComponent(text)}`, {
       signal,
       timeoutMs: cfg.timeoutMs || 15000,
-      headers: { accept: 'text/html', 'accept-language': 'es-PE,es;q=0.9', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) PrecioAlerta-local' },
+      headers: { accept: 'text/html', 'accept-language': 'es-PE,es;q=0.9', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Preciazo-local' },
     });
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     const html = await r.text();

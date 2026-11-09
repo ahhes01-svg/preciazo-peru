@@ -96,8 +96,8 @@ async function probe() {
     const t0 = Date.now();
     try {
       await origin.getJson('/api/connectors');
-      results.push({ id: origin.ID, name: 'Motor original PrecioAlerta', ok: true, ms: Date.now() - t0 });
-    } catch (e) { results.push({ id: origin.ID, name: 'Motor original PrecioAlerta', ok: false, error: e.message, ms: Date.now() - t0 }); }
+      results.push({ id: origin.ID, name: 'Motor original Preciazo', ok: true, ms: Date.now() - t0 });
+    } catch (e) { results.push({ id: origin.ID, name: 'Motor original Preciazo', ok: false, error: e.message, ms: Date.now() - t0 }); }
   })());
   await Promise.all(tasks);
   return results.sort((a, b) => a.id.localeCompare(b.id));

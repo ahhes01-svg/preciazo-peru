@@ -18,7 +18,7 @@ async function politeFetch(url, { timeoutMs = 9000, headers = {}, signal, retrie
     try {
       const timeout = AbortSignal.timeout(timeoutMs);
       const r = await fetch(url, {
-        headers: { 'user-agent': 'Mozilla/5.0 (PrecioAlerta local)', accept: 'application/json', ...headers },
+        headers: { 'user-agent': 'Mozilla/5.0 (Preciazo local)', accept: 'application/json', ...headers },
         signal: signal ? AbortSignal.any([signal, timeout]) : timeout,
       });
       if (r.status === 429 || r.status >= 500) throw Object.assign(new Error(`HTTP ${r.status}`), { status: r.status });

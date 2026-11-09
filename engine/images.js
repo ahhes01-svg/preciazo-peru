@@ -56,7 +56,7 @@ function withSlot(fn) {
 
 async function download(url) {
   const r = await fetch(url, {
-    headers: { 'user-agent': 'Mozilla/5.0 (PrecioAlerta local)', accept: 'image/avif,image/webp,image/*;q=0.8' },
+    headers: { 'user-agent': 'Mozilla/5.0 (Preciazo local)', accept: 'image/avif,image/webp,image/*;q=0.8' },
     signal: AbortSignal.timeout(TIMEOUT_MS),
     redirect: 'follow',
   });

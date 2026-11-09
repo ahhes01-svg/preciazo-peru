@@ -6,7 +6,7 @@
 const { politeFetch, breakerOpen, recordResult } = require('./http');
 
 const strip = (s) => String(s || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-const HEADERS = { accept: 'application/json', 'accept-language': 'es-PE,es;q=0.9', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) PrecioAlerta' };
+const HEADERS = { accept: 'application/json', 'accept-language': 'es-PE,es;q=0.9', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Preciazo' };
 
 function image(src) {
   if (!src) return null;
