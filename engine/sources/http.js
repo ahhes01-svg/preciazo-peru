@@ -21,6 +21,8 @@ async function politeFetch(url, { timeoutMs = 9000, headers = {}, signal, retrie
         headers: { 'user-agent': 'Mozilla/5.0 (Preciazo local)', accept: 'application/json', ...headers },
         signal: signal ? AbortSignal.any([signal, timeout]) : timeout,
       });
+      // 426: algunas tiendas exigen HTTP/2 a ciertos servidores (p. ej. desde Vercel); se repite con HTTP/2.
+      if (r.status === 426) return await http2Get(url, { headers: { 'user-agent': 'Mozilla/5.0 (Preciazo)', accept: 'application/json', ...headers }, timeoutMs, signal });
       if (r.status === 429 || r.status >= 500) throw Object.assign(new Error(`HTTP ${r.status}`), { status: r.status });
       return r;
     } catch (e) {
@@ -28,6 +30,44 @@ async function politeFetch(url, { timeoutMs = 9000, headers = {}, signal, retrie
       await sleep(600 * (attempt + 1));
     }
   }
+}
+
+// GET por HTTP/2 con una respuesta compatible con fetch (status, ok, headers, text, json).
+function http2Get(url, { headers = {}, timeoutMs = 9000, signal } = {}) {
+  const http2 = require('http2');
+  const zlib = require('zlib');
+  const u = new URL(url);
+  return new Promise((resolve, reject) => {
+    const client = http2.connect(u.origin);
+    const done = (err, val) => { clearTimeout(timer); try { client.close(); } catch { /* cerrado */ } err ? reject(err) : resolve(val); };
+    const timer = setTimeout(() => done(Object.assign(new Error('The operation was aborted due to timeout'), { name: 'TimeoutError' })), timeoutMs);
+    if (signal) signal.addEventListener('abort', () => done(signal.reason || new Error('aborted')), { once: true });
+    client.on('error', (e) => done(e));
+    const req = client.request({ ':method': 'GET', ':path': u.pathname + u.search, 'accept-encoding': 'gzip, deflate, br', ...Object.fromEntries(Object.entries(headers).map(([k, v]) => [k.toLowerCase(), v])) });
+    const chunks = [];
+    let head = {};
+    req.on('response', (h) => { head = h; });
+    req.on('data', (c) => chunks.push(c));
+    req.on('error', (e) => done(e));
+    req.on('end', () => {
+      let buf = Buffer.concat(chunks);
+      try {
+        const enc = head['content-encoding'];
+        if (enc === 'gzip') buf = zlib.gunzipSync(buf);
+        else if (enc === 'br') buf = zlib.brotliDecompressSync(buf);
+        else if (enc === 'deflate') buf = zlib.inflateSync(buf);
+      } catch (e) { return done(e); }
+      const status = Number(head[':status']) || 0;
+      const text = buf.toString('utf8');
+      done(null, {
+        status, ok: status >= 200 && status < 300, url,
+        headers: { get: (k) => head[String(k).toLowerCase()] ?? null },
+        text: async () => text,
+        json: async () => JSON.parse(text),
+      });
+    });
+    req.end();
+  });
 }
 
 function breakerOpen(id) {
@@ -48,4 +88,4 @@ function breakerState(id) {
   return b ? { fails: b.fails, pausedUntil: b.openUntil > Date.now() ? new Date(b.openUntil).toISOString() : null, lastError: b.lastError } : null;
 }
 
-module.exports = { politeFetch, breakerOpen, recordResult, breakerState, sleep };
+module.exports = { http2Get, politeFetch, breakerOpen, recordResult, breakerState, sleep };
