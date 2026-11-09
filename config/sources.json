@@ -1,0 +1,148 @@
+{
+  "_info": "Fuentes de datos. Cada tienda se consulta directamente con su catálogo o búsqueda pública. 'extra': se consulta siempre. 'off': desactivada. Tipos: vtex, magento, falabella, shopify, entel, movistar, bitel, mercadolibre (ver engine/sources/index.js). Se comprueban con /api/sources?probe=1. 'origin' es el motor del sitio anterior (desactivado: la app es independiente).",
+  "vtex": [
+    {
+      "id": "coolbox",
+      "name": "Coolbox",
+      "host": "www.coolbox.pe",
+      "mode": "extra"
+    },
+    {
+      "id": "oechsle",
+      "name": "Oechsle",
+      "host": "www.oechsle.pe",
+      "mode": "extra"
+    },
+    {
+      "id": "plaza-vea",
+      "name": "Plaza Vea",
+      "host": "www.plazavea.com.pe",
+      "mode": "extra"
+    },
+    {
+      "id": "promart",
+      "name": "Promart",
+      "host": "www.promart.pe",
+      "mode": "extra"
+    },
+    {
+      "id": "shopstar",
+      "name": "Shopstar",
+      "host": "www.shopstar.pe",
+      "mode": "extra"
+    },
+    {
+      "id": "wong",
+      "name": "Wong",
+      "host": "www.wong.pe",
+      "mode": "extra"
+    },
+    {
+      "id": "metro",
+      "name": "Metro",
+      "host": "www.metro.pe",
+      "mode": "extra"
+    },
+    {
+      "id": "claro",
+      "name": "Claro",
+      "host": "tienda.claro.com.pe",
+      "mode": "extra"
+    },
+    {
+      "id": "topitop",
+      "name": "Topitop",
+      "host": "www.topitop.pe",
+      "mode": "extra"
+    },
+    {
+      "id": "estilos",
+      "name": "Estilos",
+      "host": "www.estilos.com.pe",
+      "mode": "extra"
+    },
+    {
+      "id": "carsa",
+      "name": "Carsa",
+      "host": "www.carsa.pe",
+      "mode": "extra"
+    }
+  ],
+  "magento": [
+    {
+      "id": "efe",
+      "name": "Efe",
+      "host": "www.efe.com.pe",
+      "mode": "extra"
+    },
+    {
+      "id": "lacuracao",
+      "name": "La Curacao",
+      "host": "www.lacuracao.pe",
+      "mode": "extra"
+    },
+    {
+      "id": "hiraoka",
+      "name": "Hiraoka",
+      "host": "hiraoka.com.pe",
+      "mode": "extra"
+    }
+  ],
+  "falabella": [
+    {
+      "id": "falabella",
+      "name": "Falabella",
+      "host": "www.falabella.com.pe",
+      "site": "falabella-pe",
+      "path": "search",
+      "mode": "extra"
+    },
+    {
+      "id": "tottus",
+      "name": "Tottus",
+      "host": "www.tottus.com.pe",
+      "site": "tottus-pe",
+      "mode": "extra"
+    },
+    {
+      "id": "sodimac",
+      "name": "Sodimac",
+      "host": "www.sodimac.com.pe",
+      "site": "sodimac-pe",
+      "mode": "extra"
+    }
+  ],
+  "shopify": [
+    {
+      "id": "mac-center",
+      "name": "Mac Center",
+      "host": "mac-center.com.pe",
+      "mode": "extra"
+    },
+    {
+      "id": "ishop",
+      "name": "iShop Perú",
+      "host": "pe.tiendasishop.com",
+      "mode": "extra"
+    }
+  ],
+  "entel": {
+    "mode": "extra",
+    "_info": "Catálogo público de Entel (miportal.entel.pe): precio al contado por modalidad (renovación, línea nueva, portabilidad) y plan requerido."
+  },
+  "movistar": {
+    "mode": "extra",
+    "_info": "Catálogos públicos de tienda.movistar.com.pe: renovación (con planes) y equipos liberados."
+  },
+  "bitel": {
+    "mode": "extra",
+    "_info": "Catálogo público de bitel.com.pe/equipos. Se muestra la disponibilidad que publica Bitel (a menudo 'Fuera de stock')."
+  },
+  "mercadolibre": {
+    "mode": "extra"
+  },
+  "origin": {
+    "mode": "off",
+    "_info": "Motor del sitio anterior. 'off' = la app no depende de él. Para reactivarlo: mode 'on' y la variable ORIGIN con su dirección."
+  }
+}

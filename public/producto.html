@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="es-PE" class="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Producto · PrecioAlerta Perú</title>
+<link rel="icon" href="/favicon.svg">
+<!-- Misma hoja de estilos que la aplicación: la ficha usa sus clases y componentes. -->
+<link rel="stylesheet" href="/_next/static/css/index.BIHS4Pod.css">
+<script>
+  try {
+    const t = localStorage.getItem('theme');
+    const dark = t === 'dark' || ((!t || t === 'system') && matchMedia('(prefers-color-scheme: dark)').matches);
+    document.documentElement.classList.toggle('dark', dark);
+    document.documentElement.classList.toggle('light', !dark);
+  } catch {}
+</script>
+<style>
+  /* Solo la distribución propia de la ficha; colores y componentes vienen del sitio. */
+  .pa-hero { display: grid; gap: 16px; }
+  .pa-two { display: grid; gap: 12px; align-items: start; }
+  .pa-hero > *, .pa-two > *, .pa-two section { min-width: 0; }
+  .pa-hero > :first-child { max-width: 260px; width: 100%; margin: 0 auto; }
+  .pa-price { font-size: 30px; line-height: 1.1; letter-spacing: -.02em; }
+  .pa-specs { display: grid; gap: 0 24px; }
+  .pa-chart { width: 100%; height: 150px; display: block; }
+  .pa-desc { white-space: pre-line; }
+  .pa-hide { display: none !important; }
+  @media (min-width: 640px) { .pa-hero { grid-template-columns: 260px minmax(0, 1fr); gap: 24px; } .pa-hero > :first-child { max-width: none; } .pa-specs { grid-template-columns: repeat(2, minmax(0, 1fr)); } .pa-price { font-size: 36px; } .pa-two { gap: 20px; } }
+  @media (min-width: 1000px) { .pa-two { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); } }
+  .pa-spin { width: 26px; height: 26px; border: 3px solid #dfe5ee; border-top-color: var(--brand-coral); border-radius: 50%; margin: 0 auto 12px; animation: pa-spin .8s linear infinite; }
+  .pa-skel { height: 14px; border-radius: 6px; background: linear-gradient(90deg,#eef2f7,#f8fafc,#eef2f7); background-size: 200% 100%; animation: pa-sk 1.2s infinite; }
+  html.dark .pa-skel { background: linear-gradient(90deg,#1e293b,#273449,#1e293b); background-size: 200% 100%; }
+  @keyframes pa-sk { to { background-position: -200% 0; } }
+  @keyframes pa-spin { to { transform: rotate(360deg); } }
+  /* Índice de secciones fijo bajo la cabecera */
+  .pa-tabs { position: sticky; top: 68px; z-index: 30; margin: 0 -12px 12px; padding: 0 12px; }
+  .pa-tabs > div { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+  .pa-tab { padding: 11px 12px 9px; font-size: 13px; font-weight: 800; white-space: nowrap; text-decoration: none; color: #64748b; border-bottom: 2px solid transparent; }
+  .pa-tab:hover { color: var(--brand-coral); }
+  .pa-tab[aria-current="true"] { color: var(--brand-coral); border-bottom-color: var(--brand-coral); }
+  @media (min-width: 640px) { .pa-tabs { margin: 0 0 16px; padding: 0 8px; border-radius: 14px; } }
+  #resumen, #ficha, #historial, #comparar, #alerta { scroll-margin-top: 128px; }
+  /* Datos clave */
+  .pa-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .pa-tile { padding: 12px; border-radius: 14px; min-width: 0; }
+  .pa-tile svg { width: 22px; height: 22px; display: block; }
+  .pa-tile b { display: block; font-size: 15px; line-height: 1.25; margin-top: 2px; overflow-wrap: anywhere; }
+  @media (min-width: 640px) { .pa-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (min-width: 1200px) { .pa-tiles.n6 { grid-template-columns: repeat(6, minmax(0, 1fr)); } .pa-tiles.n4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  /* Gráfico */
+  .pa-chartbox { position: relative; }
+  .pa-chartbox svg { touch-action: pan-y; cursor: crosshair; }
+  .pa-tip { position: absolute; top: 0; transform: translateX(-50%); pointer-events: none; padding: 5px 8px; border-radius: 8px; font-size: 12px; line-height: 1.3; white-space: nowrap; background: var(--brand-navy); color: #fff; box-shadow: 0 6px 18px rgba(15,23,42,.18); opacity: 0; transition: opacity .1s; }
+  .pa-tip.on { opacity: 1; }
+  .pa-chart { height: 190px !important; }
+  .pa-dot { position: absolute; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; background: var(--brand-coral); border: 2.5px solid #fff; box-shadow: 0 0 0 3px rgba(255,79,56,.22); pointer-events: none; }
+  html.dark .pa-dot { border-color: #101a2b; }
+  html.dark .text-emerald-800, html.dark .text-emerald-700 { color: #6ee7b7; }
+  .pa-dot-sm { width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px; box-shadow: none; transition: opacity .1s; }
+  /* Barra de compra fija */
+  .pa-buy { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; transform: translateY(110%); transition: transform .22s ease; box-shadow: 0 -8px 24px rgba(15,23,42,.08); padding-bottom: env(safe-area-inset-bottom); }
+  .pa-buy.on { transform: none; }
+  .pa-buy img { width: 44px; height: 44px; object-fit: contain; }
+  #app { padding-bottom: 96px; }
+  @media (prefers-reduced-motion: reduce) { .pa-buy, .pa-skel { transition: none; animation: none; } }
+</style>
+</head>
+<body class="antialiased">
+<header class="sticky top-0 z-40 border-b border-slate-200/90 bg-white/95 backdrop-blur">
+  <div class="mx-auto flex h-[68px] max-w-[1500px] items-center gap-3 px-3 sm:px-6">
+    <a href="/" class="flex min-w-0 items-center gap-2.5" style="text-decoration:none;color:inherit">
+      <img src="/logo-precioalerta-peru-512.png" alt="" class="size-10 shrink-0 object-contain">
+      <div class="min-w-0">
+        <p class="truncate text-[17px] font-extrabold tracking-tight">PrecioAlerta <span class="text-[#ff4f38]">Perú</span></p>
+        <p class="hidden text-xs text-slate-500 sm:block">Compara mejor. Compra informado.</p>
+      </div>
+    </a>
+    <div class="ml-auto flex items-center gap-2">
+      <a id="back" href="/" class="inline-flex items-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)] border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground px-4 py-2 h-10" style="text-decoration:none">← Resultados</a>
+    </div>
+  </div>
+</header>
+
+<div class="mx-auto grid max-w-[1500px] lg:grid-cols-[220px_minmax(0,1fr)]">
+  <aside class="-translate-x-full fixed bottom-0 left-0 top-[68px] z-30 flex w-[min(84vw,300px)] flex-col overflow-y-auto border-r border-slate-200 bg-white p-4 shadow-xl transition-transform lg:sticky lg:top-[68px] lg:flex lg:h-[calc(100vh-68px)] lg:w-auto lg:translate-x-0 lg:p-4 lg:shadow-none" aria-label="Menú">
+    <nav class="space-y-1" aria-label="Navegación principal">
+      <a id="nav-compare" href="/" aria-current="page" class="flex min-h-11 w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#ff4f38] focus-visible:ring-offset-2 bg-[#12213a] text-white shadow-sm" style="text-decoration:none"><span>Comparar</span></a>
+      <a href="/" class="flex min-h-11 w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#ff4f38] focus-visible:ring-offset-2 text-slate-600 hover:bg-slate-100 hover:text-slate-950" style="text-decoration:none"><span>Monitoreados</span></a>
+      <a href="/" class="flex min-h-11 w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-semibold outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[#ff4f38] focus-visible:ring-offset-2 text-slate-600 hover:bg-slate-100 hover:text-slate-950" style="text-decoration:none"><span>Alertas</span></a>
+    </nav>
+  </aside>
+
+  <main id="app" class="min-w-0 p-3 sm:p-5 lg:p-7 xl:p-8" aria-live="polite">
+    <section class="flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_8px_28px_rgba(15,23,42,.04)]">
+      <div class="pa-hero p-3 sm:p-5" role="status" aria-label="Consultando tiendas">
+        <div class="pa-skel aspect-square w-full" style="height:auto;border-radius:14px"></div>
+        <div class="min-w-0">
+          <div class="pa-skel" style="width:40%;height:12px"></div>
+          <div class="pa-skel" style="width:90%;height:26px;margin-top:14px"></div>
+          <div class="pa-skel" style="width:65%;height:26px;margin-top:8px"></div>
+          <div class="pa-skel" style="height:96px;margin-top:18px;border-radius:14px"></div>
+          <div style="display:flex;gap:8px;margin-top:16px"><div class="pa-skel" style="width:170px;height:44px"></div><div class="pa-skel" style="width:140px;height:44px"></div></div>
+          <p class="text-xs text-slate-400" style="margin-top:14px">Consultando precios en las tiendas…</p>
+        </div>
+      </div>
+    </section>
+    <section class="mt-3 flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-3 sm:mt-5 sm:p-5"><div class="pa-skel" style="width:140px;height:14px"></div><div class="pa-tiles mt-3"><div class="pa-skel" style="height:86px;border-radius:14px"></div><div class="pa-skel" style="height:86px;border-radius:14px"></div><div class="pa-skel" style="height:86px;border-radius:14px"></div></div></section>
+  </main>
+</div>
+
+<script>
+(() => {
+  // Clases tomadas de los componentes de la aplicación.
+  const C = {
+    panel: 'flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_8px_28px_rgba(15,23,42,.04)]',
+    h2: 'text-xl font-black tracking-tight text-slate-950 sm:text-2xl',
+    h3: 'text-sm font-black text-slate-950',
+    sub: 'mt-1 text-xs text-slate-400',
+    badge: 'inline-flex w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-full border border-transparent font-medium whitespace-nowrap px-1.5 py-0 text-[10px] sm:px-2 sm:text-xs',
+    best: 'bg-emerald-600 text-white',
+    off: 'bg-red-50 text-red-700',
+    soft: 'bg-slate-200 text-slate-700',
+    btnCoral: 'inline-flex shrink-0 items-center justify-center gap-2 rounded-md transition-all outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)] h-auto min-h-9 whitespace-normal bg-[var(--brand-coral)] px-1.5 py-2 text-center text-xs font-bold leading-4 text-white hover:bg-[var(--brand-coral-hover)] active:bg-[var(--brand-coral-active)] sm:min-h-10 sm:px-2',
+    btnBig: 'inline-flex shrink-0 items-center justify-center gap-2 rounded-md whitespace-nowrap outline-none py-2 h-11 bg-[var(--brand-coral)] px-7 text-base font-bold text-white shadow-none transition-colors hover:bg-[var(--brand-coral-hover)] active:bg-[var(--brand-coral-active)] focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)] focus-visible:ring-offset-2',
+    btnOutline: 'inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)] border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground px-4 py-2 h-11',
+    row: 'flex min-h-12 items-center justify-between gap-3 rounded-lg border px-3 py-2 text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-[var(--brand-coral)]',
+    rowBest: 'border-emerald-200 bg-emerald-50 hover:bg-emerald-100/70',
+    rowNormal: 'border-slate-200 hover:bg-slate-50',
+    logo: 'grid size-6 shrink-0 place-items-center overflow-hidden rounded-md border border-slate-200 bg-white p-0.5 shadow-sm sm:size-8 sm:rounded-lg sm:p-1',
+    priceBox: 'rounded-lg border p-2 sm:rounded-xl sm:p-2.5 border-slate-100 bg-slate-50',
+    summary: 'mt-3 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-slate-200 bg-slate-200 xl:grid-cols-4',
+    cell: 'min-w-0 px-3 py-2 bg-white',
+    cellGood: 'min-w-0 px-3 py-2 bg-emerald-50',
+    cellLabel: 'truncate text-[11px] font-semibold text-slate-500',
+    cellValue: 'shrink-0 text-base font-black leading-5 text-slate-900',
+    input: 'w-full min-w-0 rounded-md py-1 outline-none h-11 border-0 bg-transparent px-0 text-base text-slate-950 shadow-none placeholder:text-slate-400 focus-visible:ring-0',
+  };
+  const LOGOS = {mercadolibre:'/store-logos/mercadolibre.png',coolbox:'/store-logos/coolbox.png',falabella:'/store-logos/falabella.png',tottus:'/store-logos/tottus.png',oechsle:'/store-logos/oechsle.png','plaza-vea':'/store-logos/plaza-vea.png','mac-center':'/store-logos/mac-center.png',ishop:'/store-logos/ishop.png',hiraoka:'/store-logos/hiraoka.png',promart:'/store-logos/promart.png',sodimac:'/store-logos/sodimac.png',carsa:'/store-logos/carsa.png',estilos:'/store-logos/estilos.ico',shopstar:'/store-logos/shopstar.png',metro:'/store-logos/metro.png',wong:'/store-logos/wong.png',ripley:'/store-logos/ripley.png',topitop:'/store-logos/topitop.png',movistar:'/store-logos/movistar.svg',claro:'/store-logos/claro.svg',entel:'/store-logos/entel.png',bitel:'/store-logos/bitel.png'};
+
+  const params = new URL(location.href).searchParams;
+  const q = (params.get('q') || '').trim();
+  const from = (params.get('from') || '').trim();
+  const selectedId = params.get('id');
+  const app = document.getElementById('app');
+  const back = document.getElementById('back');
+  back.href = from ? `/?q=${encodeURIComponent(from)}` : '/';
+  document.getElementById('nav-compare').href = back.href;
+
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const money = (n) => 'S/ ' + Number(n).toLocaleString('es-PE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const initials = (s) => String(s).split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]).join('').toUpperCase();
+  const logo = (o) => `<span class="${C.logo}" aria-hidden="true">${LOGOS[o.storeId] ? `<img alt="" class="size-full object-contain" src="${LOGOS[o.storeId]}" onerror="this.outerHTML='<span class=&quot;text-[9px] font-black text-slate-600 sm:text-[10px]&quot;>${esc(initials(o.store))}</span>'">` : `<span class="text-[9px] font-black text-slate-600 sm:text-[10px]">${esc(initials(o.store))}</span>`}</span>`;
+  const badge = (text, tone) => `<span class="${C.badge} ${tone}">${esc(text)}</span>`;
+  const conditionLabel = (c) => (c === 'refurbished' ? 'Reacondicionado' : c === 'used' ? 'Usado' : 'Nuevo');
+  const linkFor = (query) => `/producto?q=${encodeURIComponent(query)}${from ? `&from=${encodeURIComponent(from)}` : ''}`;
+  const panelMsg = (html) => { app.innerHTML = `<section class="${C.panel}"><div class="px-4 py-16 text-center text-sm text-slate-500">${html}</div></section>`; };
+
+  // Los enlaces a tiendas siempre se abren en otra pestaña; la plataforma queda abierta en esta.
+  document.addEventListener('click', (ev) => {
+    const a = ev.target.closest && ev.target.closest('a[href^="http"]');
+    if (!a || a.origin === location.origin || ev.button !== 0) return;
+    ev.preventDefault();
+    window.open(a.href, '_blank', 'noopener');
+  });
+
+  if (q.length < 2) { panelMsg(`No se indicó un producto. <a class="text-[var(--brand-coral)]" href="/">Volver al buscador</a>`); return; }
+
+  fetch(`/api/product?q=${encodeURIComponent(q)}${selectedId ? `&id=${encodeURIComponent(selectedId)}` : ''}`)
+    .then((r) => r.json().then((d) => (r.ok ? d : Promise.reject(new Error(d.error || 'Error')))))
+    .then(render)
+    .catch((e) => panelMsg(`No se pudo cargar el producto: ${esc(e.message)}. <a class="text-[var(--brand-coral)]" href="${esc(back.href)}">Volver</a>`));
+
+  function historyNote(h, best) {
+    if (!h || h.length < 2) return `<p class="mt-2 text-xs text-slate-500">Historial desde hoy: el precio se registra en cada consulta.</p>`;
+    const prev = h[h.length - 2];
+    const diff = best - prev.min;
+    if (Math.abs(diff) < 0.01) return `<div class="mt-2">${badge(`Precio más bajo sin cambios vs ${fmtDay(prev.d)}`, C.soft)}</div>`;
+    const pct = Math.abs((diff / prev.min) * 100).toFixed(1);
+    return `<div class="mt-2">${diff < 0 ? badge(`Precio más bajo: bajó ${money(-diff)} vs ${fmtDay(prev.d)} (−${pct}%)`, C.best) : badge(`Precio más bajo: subió ${money(diff)} vs ${fmtDay(prev.d)} (+${pct}%)`, C.off)}</div>`;
+  }
+
+  const fmtDay = (d) => { try { return new Date(`${d}T12:00:00`).toLocaleDateString('es-PE', { day: 'numeric', month: 'short' }); } catch { return d; } };
+  const MIN_DAYS = 7;
+
+  // Solo se opina sobre el precio con al menos una semana de registros.
+  function verdict(h) {
+    if (!h || h.length < MIN_DAYS) return `<p class="text-[11px] leading-4 text-slate-400">Con ${h ? h.length : 0} ${h && h.length === 1 ? 'día' : 'días'} de registros aún no podemos decir si es buen momento para comprar (se necesitan ${MIN_DAYS}).</p>`;
+    const vals = h.map((x) => x.min);
+    const now = vals[vals.length - 1];
+    const avg = vals.reduce((a, c) => a + c, 0) / vals.length;
+    const pct = ((now - avg) / avg) * 100;
+    if (now <= Math.min(...vals.slice(0, -1))) return badge('Precio más bajo registrado · buen momento para comprar', C.best);
+    if (pct <= -3) return badge(`Buen momento para comprar · ${Math.abs(pct).toFixed(0)}% bajo su promedio`, C.best);
+    if (pct >= 3) return badge(`Está por encima de su promedio · +${pct.toFixed(0)}%`, C.off);
+    return badge('En su precio habitual', C.soft);
+  }
+
+  function chart(h) {
+    if (!h || h.length < 2) {
+      return `<p class="text-xs leading-5 text-slate-500">Aún no hay suficientes registros. Se guarda el precio mínimo de cada día en que se consulta este producto${h && h[0] ? ` (primer registro: ${esc(fmtDay(h[0].d))}, ${money(h[0].min)})` : ''}.</p>`;
+    }
+    const W = 600, H = 190, L = 8, R = 10, T = 16, B = 10;
+    const vals = h.map((x) => x.min);
+    const avg = vals.reduce((a, c) => a + c, 0) / vals.length;
+    const lo = Math.min(...vals, avg), hi = Math.max(...vals, avg), span = hi - lo || 1;
+    const x = (i) => L + (i * (W - L - R)) / (h.length - 1);
+    const y = (v) => T + (1 - (v - lo) / span) * (H - T - B);
+    const pts = vals.map((v, i) => [x(i), y(v)]);
+    const line = pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ');
+    const area = `${line} L${x(h.length - 1).toFixed(1)} ${H - B} L${L} ${H - B} Z`;
+    const last = pts[pts.length - 1];
+    const ya = y(avg);
+    return `<div class="pa-chartbox" id="chartBox">
+      <svg class="pa-chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Precio mínimo diario: de ${money(vals[0])} a ${money(vals[vals.length - 1])}; promedio ${money(avg)}">
+        <defs><linearGradient id="paFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="var(--brand-coral)" stop-opacity=".16"/><stop offset="1" stop-color="var(--brand-coral)" stop-opacity="0"/></linearGradient></defs>
+        <path d="${area}" fill="url(#paFill)"/>
+        <line x1="${L}" x2="${W - R}" y1="${ya.toFixed(1)}" y2="${ya.toFixed(1)}" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6 5" vector-effect="non-scaling-stroke"/>
+        <path d="${line}" fill="none" stroke="var(--brand-coral)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+        <line id="chartGuide" x1="0" x2="0" y1="${T}" y2="${H - B}" stroke="#94a3b8" stroke-width="1" vector-effect="non-scaling-stroke" opacity="0"/>
+      </svg>
+      <span class="pa-dot" style="left:${(last[0] / W) * 100}%;top:${last[1]}px" aria-hidden="true"></span>
+      <span id="chartHover" class="pa-dot pa-dot-sm" style="opacity:0" aria-hidden="true"></span>
+      <div id="chartTip" class="pa-tip" role="status"></div>
+    </div>
+    <div class="mt-1 flex items-center justify-between gap-2 text-[11px] text-slate-400"><span>${esc(fmtDay(h[0].d))}</span><span class="flex items-center gap-1.5"><svg width="18" height="4" aria-hidden="true"><line x1="0" x2="18" y1="2" y2="2" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 3"/></svg>Promedio ${money(avg)}</span><span>Hoy</span></div>`;
+  }
+
+  // Precio al pasar el mouse o el dedo sobre el gráfico.
+  function bindChart(h) {
+    const box = document.getElementById('chartBox');
+    if (!box) return;
+    const svgEl = box.querySelector('svg');
+    const tip = document.getElementById('chartTip');
+    const dot = document.getElementById('chartHover');
+    const guide = document.getElementById('chartGuide');
+    const W = 600, H = 190, L = 8, R = 10, T = 16, B = 10;
+    const vals = h.map((x) => x.min);
+    const avg = vals.reduce((a, c) => a + c, 0) / vals.length;
+    const lo = Math.min(...vals, avg), hi = Math.max(...vals, avg), span = hi - lo || 1;
+    const show = (clientX) => {
+      const r = svgEl.getBoundingClientRect();
+      const rel = Math.min(Math.max((clientX - r.left) / r.width, 0), 1);
+      const i = Math.round(((rel * W - L) / (W - L - R)) * (h.length - 1));
+      const k = Math.min(Math.max(i, 0), h.length - 1);
+      const px = (L + (k * (W - L - R)) / (h.length - 1)) / W;
+      const py = (T + (1 - (vals[k] - lo) / span) * (H - T - B)) * (r.height / H);
+      guide.setAttribute('x1', px * W); guide.setAttribute('x2', px * W); guide.setAttribute('opacity', '1');
+      dot.style.left = `${px * 100}%`; dot.style.top = `${py}px`; dot.style.opacity = '1';
+      tip.innerHTML = `<b>${money(vals[k])}</b><br><span style="opacity:.75">${esc(fmtDay(h[k].d))}${k === h.length - 1 ? ' · hoy' : ''}</span>`;
+      tip.style.left = `${Math.min(Math.max(px * 100, 12), 88)}%`;
+      tip.classList.add('on');
+    };
+    const hide = () => { tip.classList.remove('on'); dot.style.opacity = '0'; guide.setAttribute('opacity', '0'); };
+    svgEl.addEventListener('pointermove', (e) => show(e.clientX));
+    svgEl.addEventListener('pointerdown', (e) => show(e.clientX));
+    svgEl.addEventListener('pointerleave', hide);
+  }
+
+  const ICONS = {
+    screen: '<rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/>',
+    chip: '<rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 2.5v3M15 2.5v3M9 18.5v3M15 18.5v3M2.5 9h3M2.5 15h3M18.5 9h3M18.5 15h3"/>',
+    camera: '<path d="M3 8.5h3.5L8.5 5.5h7l2 3H21v11H3z"/><circle cx="12" cy="13.5" r="3.6"/>',
+    battery: '<rect x="2.5" y="7" width="17" height="10" rx="2"/><path d="M21.5 10.5v3M6 10v4M9.5 10v4M13 10v4"/>',
+    storage: '<ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>',
+    ram: '<rect x="2.5" y="7" width="19" height="9" rx="1.5"/><path d="M6 16v3M10 16v3M14 16v3M18 16v3M7 10h2v3H7zM11 10h2v3h-2zM15 10h2v3h-2z"/>',
+    tag: '<path d="M3 12.5V4h8.5L21 13.5 13.5 21z"/><circle cx="7.5" cy="8" r="1.4"/>',
+  };
+  const svg = (k) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[k] || ICONS.tag}</svg>`;
+  const plain = (t) => String(t || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  // Datos clave: el primero que coincide de cada tipo (nombre de la tienda o del título).
+  const KEYS = [
+    { label: 'Pantalla', icon: 'screen', re: /pantalla|display|pulgadas/, not: /tipo|resoluci|tasa|tecnolog|brillo|panel|proteccion/ },
+    { label: 'Procesador', icon: 'chip', re: /procesador|chip/, not: /nucleo|velocidad|frecuencia|marca del/ },
+    { label: 'Cámara', icon: 'camera', re: /camara/, not: /frontal|selfie|video|cantidad/ },
+    { label: 'Batería', icon: 'battery', re: /bateria|mah/, not: /incluye|tiempo|duracion|tipo/ },
+    { label: 'Almacenamiento', icon: 'storage', re: /almacenamiento|memoria interna|capacidad$/, not: /expandible|tarjeta|ram/ },
+    { label: 'Memoria RAM', icon: 'ram', re: /\bram\b/, not: /tipo|expandible/ },
+  ];
+  function keyTiles(list) {
+    const used = new Set();
+    const tiles = [];
+    for (const k of KEYS) {
+      const hit = list.find((x, i) => !used.has(i) && k.re.test(plain(x.name)) && !k.not.test(plain(x.name)) && (used.add(i), true));
+      if (!hit) continue;
+      let v = String(hit.value);
+      if (k.icon === 'battery' && /^\d{3,5}$/.test(v)) v += ' mAh';
+      if (k.icon === 'screen' && /^\d+(\.\d+)?$/.test(v)) v += '"';
+      tiles.push({ label: k.label, value: v, icon: k.icon });
+    }
+    return tiles;
+  }
+  function renderTiles(tiles) {
+    const el = document.getElementById('keyTiles');
+    if (!el) return;
+    if (tiles.length < 2) { el.innerHTML = ''; el.className = 'pa-hide'; return; }
+    el.className = `pa-tiles mt-3 ${tiles.length >= 5 ? 'n6' : 'n4'}`;
+    el.innerHTML = tiles.map((t) => `<div class="pa-tile border border-slate-200 bg-slate-50"><span class="text-[var(--brand-coral)]">${svg(t.icon)}</span><p class="mt-2 text-[11px] font-semibold text-slate-500">${esc(t.label)}</p><b class="text-slate-950">${esc(t.value)}</b></div>`).join('');
+  }
+
+  const SECTION_ORDER = ['Pantalla', 'Rendimiento', 'Cámara', 'Batería', 'Conectividad', 'Diseño', 'Garantía y contenido', 'Otros'];
+
+  function render(d) {
+    document.title = `${d.found ? d.title : q} · PrecioAlerta Perú`;
+    if (!d.found) {
+      panelMsg(`<p class="${C.h3}">No encontramos ofertas disponibles de este producto.</p><p class="mt-1">${esc(d.note || '')}</p><p class="mt-4"><a class="${C.btnOutline}" style="text-decoration:none" href="${esc(back.href)}">Volver a los resultados</a></p>`);
+      return;
+    }
+    const b = d.best;
+    const s = d.selected || { ...b, title: d.title, priceVerified: true };   // la oferta que eligió el usuario
+    const isBest = s.id === b.id;
+    const h = d.history || [];
+    const vals = h.map((x) => x.min);
+    const bestRow = d.offers.find((o) => o.priceVerified) || d.offers[0];
+    const updated = new Date(d.fetchedAt).toLocaleString('es-PE', { dateStyle: 'medium', timeStyle: 'short' });
+    const image = s.image || d.image;
+    const discount = s.listPrice && s.listPrice > s.price ? Math.round((1 - s.price / s.listPrice) * 100) : 0;
+    const saving = !isBest && s.priceVerified && b.price < s.price ? s.price - b.price : 0;
+    const avg = vals.length ? vals.reduce((a, c) => a + c, 0) / vals.length : null;
+
+    // Datos útiles antes de comprar, calculados con lo que ya se tiene (sin inventar).
+    const tips = [];
+    if (d.stats.comparable > 1) tips.push(`Entre la tienda más cara y la más barata hay <b>${money(d.stats.difference)}</b> de diferencia (${Math.round((d.stats.difference / d.stats.max) * 100)}%).`);
+    if (saving) tips.push(`Comprando en <b>${esc(b.store)}</b> en lugar de ${esc(s.store)} ahorras <b>${money(saving)}</b>.`);
+    if (s.cardPrice) tips.push(`Con ${esc(s.cardLabel || 'la tarjeta de la tienda')} el precio en ${esc(s.store)} baja a <b>${money(s.cardPrice)}</b>.`);
+    if (discount) tips.push(`${esc(s.store)} muestra un precio regular de ${money(s.listPrice)}: el descuento publicado es de ${discount}%. Verifica que el precio regular sea real en el historial.`);
+    if (s.conditions && s.conditions.length) tips.push(`Esta oferta tiene condiciones: ${s.conditions.map(esc).join(' · ')}.`);
+    if (s.condition && s.condition !== 'new') tips.push(`El producto es <b>${conditionLabel(s.condition).toLowerCase()}</b>: revisa la garantía que ofrece la tienda.`);
+    if (s.seller) tips.push(`Lo vende <b>${esc(s.seller)}</b> a través de ${esc(s.store)}.`);
+    tips.push('El envío no está incluido en los precios: confírmalo en la tienda antes de pagar.');
+
+    app.innerHTML = `
+      <nav class="mb-3 flex flex-wrap items-center gap-1.5 text-xs text-slate-500" aria-label="Ruta">
+        <a class="font-semibold text-[var(--brand-coral)]" style="text-decoration:none" href="${esc(back.href)}">${from ? `Resultados para «${esc(from)}»` : 'Inicio'}</a><span>/</span>
+        ${d.category ? `<span>${esc(d.category)}</span><span>/</span>` : ''}<span class="truncate">${esc(d.title)}</span>
+      </nav>
+
+      <nav id="tabs" class="pa-tabs border-b border-slate-200 bg-white/95 backdrop-blur sm:border" aria-label="Secciones de la ficha">
+        <div>${[['resumen', 'Resumen'], ['ficha', 'Ficha'], ['historial', 'Historial'], ['comparar', `Tiendas (${d.stats.stores})`]].map(([id, t]) => `<a class="pa-tab" href="#${id}" data-tab="${id}">${t}</a>`).join('')}</div>
+      </nav>
+
+      <!-- 1. El producto elegido -->
+      <section id="resumen" class="${C.panel}">
+        <div class="pa-hero p-3 sm:p-5">
+          <div class="grid aspect-square w-full place-items-center overflow-hidden rounded-xl border border-slate-100 bg-white">
+            ${image ? `<img alt="${esc(s.title || d.title)}" class="h-full w-full object-contain p-3" src="${esc(image)}" onerror="this.outerHTML='<span class=&quot;text-xs text-slate-400&quot;>Imagen no disponible</span>'">` : '<span class="text-xs text-slate-400">Imagen no disponible</span>'}
+          </div>
+          <div class="min-w-0">
+            <p class="flex flex-wrap items-center gap-2 text-xs text-slate-500">${logo(s)}<span>${[esc(s.store), d.brand && esc(d.brand), d.category && esc(d.category)].filter(Boolean).join(' · ')}</span></p>
+            <h1 class="${C.h2} mt-2">${esc(s.title || d.title)}</h1>
+            ${d.variants.length > 1 ? `<div class="mt-3 flex flex-wrap gap-2" role="list" aria-label="Variantes">${d.variants.map((v) => `<a role="listitem" href="${esc(linkFor(v.query))}" ${v.current ? 'aria-current="true"' : ''} class="${C.row} ${v.current ? C.rowBest : C.rowNormal} min-h-0 py-1.5" style="text-decoration:none;color:inherit"><span class="font-bold">${esc(v.label)}</span><span class="text-[11px] text-slate-500">desde ${money(v.min)}</span></a>`).join('')}</div>` : ''}
+
+            <div class="${C.priceBox} mt-4">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <p class="text-[10px] font-semibold text-slate-500 sm:text-xs">Precio en ${esc(s.store)}</p>
+                <span class="flex flex-wrap gap-1">${isBest ? badge('Mejor precio', C.best) : ''}${discount ? badge(`−${discount}%`, C.off) : ''}${s.purchaseModeLabel ? badge(s.purchaseModeLabel, C.soft) : ''}${s.condition !== 'new' ? badge(conditionLabel(s.condition), C.soft) : ''}</span>
+              </div>
+              <p class="mt-1 flex flex-wrap items-baseline gap-x-3"><span class="pa-price font-black text-slate-950">${money(s.price)}</span>${discount ? `<span class="text-sm text-slate-400 line-through">${money(s.listPrice)}</span>` : ''}</p>
+              ${s.cardPrice ? `<p class="mt-0.5 text-xs text-slate-600">${money(s.cardPrice)} con ${esc(s.cardLabel || 'tarjeta')}</p>` : ''}
+              ${s.conditions && s.conditions.length ? `<p class="mt-0.5 text-xs text-slate-500">${s.conditions.map(esc).join(' · ')}</p>` : ''}
+            </div>
+            ${saving ? `<a href="#comparar" class="${C.row} ${C.rowBest} mt-2" style="text-decoration:none;color:inherit"><span class="min-w-0"><span class="block text-xs font-bold text-emerald-800 sm:text-sm">Más barato en ${esc(b.store)}: ${money(b.price)}</span><span class="block text-[11px] text-emerald-700">Ahorras ${money(saving)} · ver comparación</span></span><span aria-hidden="true">↓</span></a>`
+              : isBest && d.stats.comparable > 1 ? `<p class="mt-2 text-xs font-semibold text-emerald-700">Es el precio más bajo entre ${d.stats.stores} tiendas.</p>` : ''}
+            ${historyNote(h, b.price)}
+
+            <div class="mt-4 flex flex-wrap gap-2">
+              <a id="mainBuy" class="${C.btnBig}" style="text-decoration:none" href="${esc(s.url)}" target="_blank" rel="noopener">Ir a ${esc(s.store)} ↗</a>
+              <a class="${C.btnOutline}" style="text-decoration:none" href="#alerta">Avísame si baja</a>
+              <button id="share" type="button" class="${C.btnOutline}">Copiar enlace</button>
+            </div>
+            <p class="mt-2 text-[11px] leading-4 text-slate-400">Precio publicado por la tienda, revisado ${esc(updated)}. No incluye envío.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Ficha técnica -->
+      <section id="ficha" class="${C.panel} mt-3 p-3 sm:mt-5 sm:p-5">
+        <h2 class="${C.h3}">Ficha técnica</h2>
+        <p id="fichaSub" class="${C.sub}">Leyendo la ficha publicada por las tiendas…</p>
+        <div id="keyTiles" class="pa-tiles mt-3 n6">${[1, 2, 3, 4, 5, 6].map(() => '<div class="pa-skel" style="height:86px;border-radius:14px"></div>').join('')}</div>
+        <div id="fichaBody" class="mt-3 grid gap-2">${[1, 2, 3, 4].map(() => '<div class="pa-skel"></div>').join('')}</div>
+      </section>
+
+      <!-- 3. Historial y alerta -->
+      <div class="pa-two mt-3 sm:mt-5">
+        <section id="historial" class="${C.panel} p-3 sm:p-5">
+          <div class="flex flex-wrap items-start justify-between gap-2">
+            <div><h2 class="${C.h3}">Historial de precio</h2><p class="${C.sub}">Precio mínimo por día entre todas las tiendas.</p></div>
+            ${h.length >= MIN_DAYS ? verdict(h) : ''}
+          </div>
+          <div class="mt-3">${chart(h)}</div>
+          ${h.length < MIN_DAYS ? `<div class="mt-2">${verdict(h)}</div>` : ''}
+          ${vals.length ? `<div class="mt-3 grid gap-px overflow-hidden rounded-xl border border-slate-200 bg-slate-200" style="grid-template-columns:repeat(3,minmax(0,1fr))"><div class="${C.cell}"><p class="${C.cellLabel}">Mínimo</p><p class="${C.cellValue}">${money(Math.min(...vals))}</p></div><div class="${C.cell}"><p class="${C.cellLabel}">Promedio</p><p class="${C.cellValue}">${money(avg)}</p></div><div class="${C.cell}"><p class="${C.cellLabel}">Máximo</p><p class="${C.cellValue}">${money(Math.max(...vals))}</p></div></div>` : ''}
+        </section>
+
+        <div class="grid gap-3 sm:gap-5">
+          <section id="alerta" class="${C.panel} scroll-mt-20 p-3 sm:p-5">
+            <h2 class="${C.h3}">Crear alerta de precio</h2>
+            <p class="${C.sub}">Aparecerá en Monitoreados y Alertas cuando llegue a tu precio.</p>
+            <form id="alertForm" class="mt-3 grid gap-2">
+              <label class="text-xs font-bold text-slate-600" for="target">Precio objetivo</label>
+              <div class="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3"><span class="text-sm text-slate-400">S/</span><input id="target" class="${C.input}" inputmode="decimal" required value="${Math.floor(Math.min(s.price, b.price) * 0.95)}"></div>
+              <button class="${C.btnBig}" type="submit">Activar alerta</button>
+              <p id="alertMsg" class="text-xs" role="status"></p>
+            </form>
+          </section>
+
+          <section class="${C.panel} p-3 sm:p-5">
+            <h2 class="${C.h3}">Antes de comprar</h2>
+            <ul class="mt-2 grid gap-2 text-xs leading-5 text-slate-600">${tips.map((t) => `<li class="flex gap-2"><span class="text-[var(--brand-coral)]" aria-hidden="true">•</span><span>${t}</span></li>`).join('')}</ul>
+          </section>
+        </div>
+      </div>
+
+      <!-- 4. Comparación entre tiendas (al final) -->
+      <section id="comparar" class="${C.panel} mt-3 scroll-mt-20 p-3 sm:mt-5 sm:p-5">
+        <h2 class="${C.h3}">Compara en ${d.stats.stores} ${d.stats.stores === 1 ? 'tienda' : 'tiendas'}</h2>
+        <p class="${C.sub}">Una fila por tienda y modalidad, con su mejor oferta. El envío se confirma en cada tienda.</p>
+        <div class="${C.summary}">
+          <div class="${C.cellGood}"><p class="${C.cellLabel}">Precio más bajo</p><p class="${C.cellValue} text-emerald-700">${money(d.stats.min)}</p></div>
+          <div class="${C.cell}"><p class="${C.cellLabel}">Precio más alto</p><p class="${C.cellValue}">${money(d.stats.max)}</p></div>
+          <div class="${C.cellGood}"><p class="${C.cellLabel}">Diferencia entre tiendas</p><p class="${C.cellValue} text-emerald-700">${money(d.stats.difference)}</p></div>
+          <div class="${C.cell}"><p class="${C.cellLabel}">Tiendas con stock</p><p class="${C.cellValue}">${d.stats.stores}</p></div>
+        </div>
+        <div class="mt-3 grid gap-2" style="grid-template-columns:minmax(0,1fr)">
+          ${d.offers.map((o) => {
+            const rowBest = o.id === bestRow.id;
+            const mine = o.id === s.id;
+            const diff = o.price - bestRow.price;
+            const notes = [];
+            if (o.purchaseModeLabel) notes.push(esc(o.purchaseModeLabel));
+            if (o.condition !== 'new') notes.push(conditionLabel(o.condition));
+            if (o.alsoOffers) notes.push(`+${o.alsoOffers} ${o.alsoOffers === 1 ? 'opción' : 'opciones'}`);
+            const sub = rowBest ? `<span class="block truncate text-[10px] font-bold text-emerald-700 sm:text-[11px]">Mejor precio${mine ? ' · la que elegiste' : ''}</span>`
+              : !o.priceVerified ? `<span class="block truncate text-[10px] text-slate-500 sm:text-[11px]">No comparable: precio en cuotas, con plan o sin variante exacta</span>`
+              : `<span class="block truncate text-[10px] text-slate-500 sm:text-[11px]">+${money(diff)} vs. el mejor${mine ? ' · la que elegiste' : ''}</span>`;
+            return `<a href="${esc(o.url)}" target="_blank" rel="noopener" class="${C.row} ${rowBest ? C.rowBest : C.rowNormal}${mine ? ' ring-2 ring-[var(--brand-coral)]/30' : ''}" style="text-decoration:none;color:inherit" aria-label="Ir a ${esc(o.store)}: ${money(o.price)}">
+              <span class="flex min-w-0 items-center gap-1.5 sm:gap-2.5">${logo(o)}
+                <span class="min-w-0"><span class="block truncate text-xs font-bold text-slate-800 sm:text-sm">${esc(o.store)}${notes.length ? ` <span class="font-medium text-slate-500">· ${notes.join(' · ')}</span>` : ''}</span>${sub}</span>
+              </span>
+              <span class="shrink-0 text-right"><span class="block font-black text-slate-950">${money(o.price)}</span>${o.listPrice ? `<span class="block text-[11px] text-slate-400 line-through">${money(o.listPrice)}</span>` : ''}${o.cardPrice ? `<span class="block text-[11px] text-slate-500">${money(o.cardPrice)} con ${esc(o.cardLabel)}</span>` : ''}</span>
+            </a>`;
+          }).join('')}
+        </div>
+        <p class="mt-3 text-[11px] leading-4 text-slate-400">El mejor precio es el menor precio verificado de este mismo producto, con stock. Toca una tienda para ir a su página.</p>
+      </section>
+    `;
+
+    document.getElementById('share').addEventListener('click', async (ev) => {
+      const btn = ev.currentTarget;
+      try { await navigator.clipboard.writeText(location.href); btn.textContent = 'Enlace copiado'; }
+      catch { btn.textContent = 'No se pudo copiar'; }
+      setTimeout(() => { btn.textContent = 'Copiar enlace'; }, 2000);
+    });
+
+    document.getElementById('alertForm').addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      const msg = document.getElementById('alertMsg');
+      const target = Number(String(document.getElementById('target').value).replace(',', '.'));
+      if (!Number.isFinite(target) || target <= 0) { msg.className = 'text-xs text-red-700'; msg.textContent = 'Escribe un precio válido.'; return; }
+      msg.className = 'text-xs text-slate-500'; msg.textContent = 'Guardando…';
+      try {
+        const r = await fetch('/api/products', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ title: s.title || d.title, url: s.url, store: s.store, imageUrl: image, currentPrice: s.price, targetPrice: target, currency: 'PEN', source: 'product-page', category: d.category || 'Otros' }) });
+        const out = await r.json();
+        if (!r.ok) throw new Error(out.error || 'No se pudo guardar.');
+        msg.className = 'text-xs font-semibold text-emerald-700';
+        msg.innerHTML = `Alerta activada por ${money(target)}. La verás en <a class="underline" href="/">Monitoreados y Alertas</a>.`;
+      } catch (e) { msg.className = 'text-xs text-red-700'; msg.textContent = e.message; }
+    });
+
+    renderTiles(keyTiles((d.specs || []).map(([name, value]) => ({ name, value }))));
+    bindChart(h);
+    buyBar(s, b, image, discount, saving);
+    activeTabs();
+    loadDetails(d);
+  }
+
+  // Barra fija con precio y botón de compra cuando el botón principal sale de la pantalla.
+  function buyBar(s, b, image, discount, saving) {
+    const bar = document.createElement('div');
+    bar.className = 'pa-buy border-t border-slate-200 bg-white';
+    bar.setAttribute('role', 'region');
+    bar.setAttribute('aria-label', 'Comprar');
+    bar.innerHTML = `<div class="mx-auto flex max-w-[1500px] items-center gap-3 px-3 py-2 sm:px-6">
+      ${image ? `<img class="hidden rounded-lg border border-slate-100 bg-white p-0.5 sm:block" src="${esc(image)}" alt="">` : ''}
+      <div class="min-w-0 flex-1">
+        <p class="truncate text-[11px] font-semibold text-slate-500">${esc(s.store)}${s.purchaseModeLabel ? ` · ${esc(s.purchaseModeLabel)}` : ''}${saving ? ` · <a href="#comparar" class="text-emerald-700" style="text-decoration:none">${esc(b.store)} a ${money(b.price)}</a>` : ''}</p>
+        <p class="flex items-baseline gap-2"><span class="text-lg font-black text-slate-950 sm:text-xl">${money(s.price)}</span>${discount ? `<span class="text-xs text-slate-400 line-through">${money(s.listPrice)}</span>` : ''}</p>
+      </div>
+      <a class="${C.btnBig}" style="text-decoration:none;padding-left:18px;padding-right:18px" href="${esc(s.url)}" target="_blank" rel="noopener">Ir a ${esc(s.store)} ↗</a>
+    </div>`;
+    document.body.appendChild(bar);
+    const main = document.getElementById('mainBuy');
+    if (!main) { bar.classList.add('on'); return; }
+    const update = () => bar.classList.toggle('on', main.getBoundingClientRect().bottom < 68);
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  }
+
+  // Marca en el índice la sección que se está viendo.
+  function activeTabs() {
+    const links = [...document.querySelectorAll('.pa-tab')];
+    const ids = links.map((a) => a.dataset.tab);
+    const update = () => {
+      let cur = ids[0];
+      for (const id of ids) { const el = document.getElementById(id); if (el && el.getBoundingClientRect().top <= 140) cur = id; }
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) cur = ids[ids.length - 1];
+      for (const a of links) a.setAttribute('aria-current', String(a.dataset.tab === cur));
+    };
+    window.addEventListener('scroll', update, { passive: true });
+    update();
+  }
+
+  // Ficha técnica real (páginas de las tiendas); si no llega, se usa la de los títulos.
+  function loadDetails(d) {
+    const body = document.getElementById('fichaBody');
+    const sub = document.getElementById('fichaSub');
+    const fallback = () => {
+      const kt = document.getElementById('keyTiles');
+      if (kt && kt.querySelector('.pa-skel')) renderTiles([]);
+      if (d.specs && d.specs.length) {
+        sub.textContent = 'Según los títulos publicados por las tiendas (no se pudo leer la ficha completa).';
+        body.innerHTML = `<dl class="pa-specs">${d.specs.map(([k, v]) => specRow(k, v)).join('')}</dl>`;
+      } else {
+        sub.textContent = 'Las tiendas no publican una ficha técnica legible para este producto.';
+        body.innerHTML = '';
+      }
+    };
+    fetch(`/api/product-details?q=${encodeURIComponent(q)}${selectedId ? `&id=${encodeURIComponent(selectedId)}` : ''}`)
+      .then((r) => r.json())
+      .then((x) => {
+        if (!x || (!x.specs?.length && !x.description)) return fallback();
+        // Une los datos de los títulos que la ficha de la tienda no trae.
+        const have = new Set((x.specs || []).map((sp) => sp.name.toLowerCase()));
+        const specs = [...(x.specs || [])];
+        for (const [k, v] of d.specs || []) if (!have.has(k.toLowerCase())) specs.push({ name: k, value: v, section: 'Otros', store: 'títulos' });
+        const tiles = keyTiles(specs);
+        if (tiles.length >= 2) renderTiles(tiles);
+        const groups = SECTION_ORDER.map((name) => [name, specs.filter((sp) => (sp.section || 'Otros') === name)]).filter(([, l]) => l.length);
+        const LIMIT = 12;
+        let shown = 0;
+        const html = groups.map(([name, list]) => `<div class="mb-2"><h3 class="mt-2 text-[11px] font-black uppercase tracking-wide text-slate-400">${esc(name)}</h3><dl class="pa-specs">${list.map((sp) => specRow(sp.name, sp.value, shown++ >= LIMIT)).join('')}</dl></div>`).join('');
+        sub.textContent = x.sources?.length ? `Datos publicados por ${x.sources.join(', ')}. Verifica en la tienda antes de comprar.` : 'Datos publicados por las tiendas.';
+        body.innerHTML = html
+          + (shown > LIMIT ? `<button id="moreSpecs" type="button" class="${C.btnOutline} w-fit">Ver ficha completa (${shown})</button>` : '')
+          + (x.description ? `<details class="mt-2 rounded-xl border border-slate-200 p-3"><summary class="cursor-pointer text-sm font-bold text-slate-800">Descripción${x.descriptionSource ? ` <span class="font-medium text-slate-400">· ${esc(x.descriptionSource)}</span>` : ''}</summary><p class="pa-desc mt-2 text-sm leading-6 text-slate-600">${esc(x.description)}</p></details>` : '');
+        // Grupos que quedan vacíos al ocultar filas no se muestran hasta expandir.
+        const hideEmpty = () => body.querySelectorAll('.mb-2').forEach((g) => g.classList.toggle('pa-hide', !g.querySelector('div.flex:not(.pa-hide)')));
+        hideEmpty();
+        const more = document.getElementById('moreSpecs');
+        if (more) more.addEventListener('click', () => { body.querySelectorAll('.pa-hide').forEach((n) => n.classList.remove('pa-hide')); more.remove(); });
+      })
+      .catch(fallback);
+  }
+
+  function specRow(k, v, hidden) {
+    return `<div class="flex items-baseline justify-between gap-3 border-b border-slate-100 py-2 text-sm${hidden ? ' pa-hide' : ''}"><dt class="min-w-0 text-slate-500">${esc(k)}</dt><dd class="min-w-0 text-right font-bold text-slate-900" style="overflow-wrap:anywhere">${esc(v)}</dd></div>`;
+  }
+})();
+</script>
+</body>
+</html>

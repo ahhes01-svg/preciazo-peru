@@ -1,0 +1,19 @@
+# Secretos: nunca subir credenciales (usa .env.example como plantilla)
+.env
+.env.*
+!.env.example
+
+# Dependencias y sistema
+node_modules/
+.DS_Store
+Thumbs.db
+*.log
+
+# Datos generados al usar la app (personales o regenerables)
+data/cache/
+data/price-history.json
+data/clarifications.json
+data/sources-state.json
+data/vocab.json
+data/products.json
+data/alerts.json

@@ -1,0 +1,13 @@
+{
+  "name": "precioalerta-peru",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Comparador de precios de tiendas peruanas con motor de búsqueda propio.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node scripts/test-engine.js",
+    "patch-frontend": "node scripts/patch-frontend.js"
+  },
+  "engines": { "node": ">=20" }
+}

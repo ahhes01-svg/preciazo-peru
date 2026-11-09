@@ -1,0 +1,8 @@
+.env
+data/cache
+data/db.json
+data/price-history.json
+data/clarifications.json
+data/sources-state.json
+data/vocab.json
+iniciar.bat

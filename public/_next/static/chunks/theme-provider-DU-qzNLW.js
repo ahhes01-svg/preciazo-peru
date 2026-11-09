@@ -1,0 +1,1 @@
+import{r as e}from"./framework-D_rUT4EX.js";import{t}from"./dist-H59fFAm2.js";var n=e();function r({children:e,...r}){return(0,n.jsx)(t,{...r,children:e})}export{r as ThemeProvider};
